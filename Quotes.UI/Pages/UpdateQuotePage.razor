@@ -1,8 +1,10 @@
 ﻿@page "/UpdateQuote/{QuoteId}"
 @using Quotes.UI.Components
+@using Quotes.UI.Service.Services.Interface
 @inject ISnackbar snackBar;
+@inject IQuoteService _quoteService;
 
-<MudPaper Class="p-4" Elevation="0">
+<MudPaper Class="p-4 overflow-scroll" Height="100%" Elevation="0">
     <MudText Align="Align.Center" Typo="Typo.h4">Update Quote</MudText>
-    <QuoteFormComponent IsUpdatePage="true" QuoteId="@(Convert.ToInt32(QuoteId))" />
+    <QuoteFormComponent IsUpdatePage="true" QuoteId="@(int.TryParse(QuoteId,out int id) ? id : 0)" />
 </MudPaper>

@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using Quotes.Common.CustomExceptions;
+using Quotes.UI.Service.Dto.ApiResponse;
 
 namespace Quotes.UI.Pages
 {
@@ -6,10 +9,6 @@ namespace Quotes.UI.Pages
     {
         [Parameter]
         public string QuoteId { get; set; }
-        protected override void OnInitialized()
-        {
-               
-
-        }
+        
     }
 }

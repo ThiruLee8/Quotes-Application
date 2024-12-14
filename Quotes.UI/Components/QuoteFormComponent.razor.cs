@@ -15,17 +15,42 @@ namespace Quotes.UI.Components
         [Parameter]
         public bool IsUpdatePage { get; set; } = default;
         [Parameter]
-        public int QuoteId {  get; set; }
+        public int QuoteId { get; set; }
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
 
-        [Parameter]
-        public QuoteReqDto Data { get; set; }
         public List<QuoteReqDto> ModelData { get; set; } = new();
-        protected override void OnInitialized()
+        protected async override Task OnInitializedAsync()
         {
-            if (IsCreatePage)
-                ModelData.Add(new());
+            try
+            {
+                if (IsCreatePage)
+                    ModelData.Add(new());
+                else if (QuoteId != 0)
+                {
+                    var data = await _quoteService.GetQuoteById(QuoteId);
+                    ModelData.Add(data);
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is UserFriendlyException)
+                    snackBar.Add(ex.Message, Severity.Warning);
+                else
+                    snackBar.Add(ex.Message, Severity.Error);
+            }
 
         }
+
+        //protected override void OnAfterRender(bool firstRender)
+        //{
+        //    if (Data != null)
+        //    {
+        //        ModelData.Add(Data);
+        //    }
+
+        //}
 
         private async void OnFormSubmit()
         {
@@ -47,15 +72,15 @@ namespace Quotes.UI.Components
                     var resp = await _quoteService.UpdateQuote(QuoteId, updateQuote);
                     snackBar.Add("Quote Updated Successfully.", Severity.Success);
                 }
-                StateHasChanged();
+                NavigationManager.NavigateTo("/");
             }
-            catch(UserFriendlyException ex)
+            catch (UserFriendlyException ex)
             {
-                snackBar.Add(ex.Message,Severity.Warning);
+                snackBar.Add(ex.Message, Severity.Warning);
             }
             catch (Exception ex)
             {
-                snackBar.Add(ex.Message,Severity.Error);
+                snackBar.Add(ex.Message, Severity.Error);
             }
         }
 

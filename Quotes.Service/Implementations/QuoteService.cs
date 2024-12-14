@@ -2,8 +2,8 @@
 using Quotes.Common.AppResponse;
 using Quotes.Common.Constants;
 using Quotes.Common.CustomExceptions;
-using Quotes.Common.DTO.RequestDTO;
-using Quotes.Common.DTO.ResponseDTO;
+using Quotes.Data.DTO.RequestDTO;
+using Quotes.Data.DTO.ResponseDTO;
 using Quotes.Data.EntityModals;
 using Quotes.Data.Repositories.Interface;
 using Quotes.Service.Interfaces;
@@ -55,9 +55,9 @@ namespace Quotes.Service.Implementations
             return AppResponseFactory.SuccessResponse(resp);
         }
 
-        public async Task<GenericResponse<List<QuotePaginatedRespDto>>> SearchQuote(QuoteFilter req)
+        public async Task<GenericResponse<List<QuotePaginatedRespDto>>> SearchQuote(QuoteFilter req, CancellationToken cancellationToken)
         {
-            var quotes = await _quoteRepo.SearchQuoteAsync(req);
+            var quotes = await _quoteRepo.SearchQuoteAsync(req,cancellationToken);
             return AppResponseFactory.SuccessResponse(quotes);
         }
 

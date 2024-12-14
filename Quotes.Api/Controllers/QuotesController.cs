@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Quotes.Common.CustomExceptions;
-using Quotes.Common.DTO.RequestDTO;
-using Quotes.Service.Implementations;
+using Quotes.Data.DTO.RequestDTO;
 using Quotes.Service.Interfaces;
 
 namespace Quotes.Api.Controllers
@@ -48,10 +46,10 @@ namespace Quotes.Api.Controllers
             return StatusCode((int)resp.StatusCode, resp);
         }
         [HttpPost("Search")]
-        public async Task<IActionResult> SearchQuote(QuoteFilter req)
+        public async Task<IActionResult> SearchQuote(QuoteFilter req, CancellationToken cancellationToken=default)
         {
             req.TagsFilter = req.TagsFilter.Where(x=>!string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToList();
-            var resp = await _quoteService.SearchQuote(req);
+            var resp = await _quoteService.SearchQuote(req, cancellationToken);
             return StatusCode((int)resp.StatusCode, resp);
         }
     }

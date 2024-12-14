@@ -2,17 +2,15 @@
 <MudThemeProvider />
 <MudPopoverProvider />
 
-<MudDialogProvider />
+<MudDialogProvider  />
 
 <MudSnackbarProvider />
 <MudLayout>
-    <MudAppBar Color="Color.Primary" >
+    <MudAppBar Color="Color.Primary">
         <MudText Class="fw-bold" Typo="Typo.h5">Quote App</MudText>
         <MudSpacer />
     </MudAppBar>
-    <MudMainContent  Class="vh-100">
-        <MudPaper Class="overflow-scroll h-100" Elevation="0">
+    <MudMainContent Class="vh-100 overflow-hidden">
         @Body
-        </MudPaper>
     </MudMainContent>
 </MudLayout>

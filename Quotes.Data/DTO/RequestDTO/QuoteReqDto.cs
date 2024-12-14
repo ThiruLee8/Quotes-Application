@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Quotes.Common.DTO.RequestDTO
+namespace Quotes.Data.DTO.RequestDTO
 {
     public class QuoteReqDto
     {

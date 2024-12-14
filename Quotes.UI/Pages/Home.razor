@@ -1,27 +1,40 @@
 ﻿@page "/"
+@using Quotes.UI.Components
 @using Quotes.UI.Service.Dto.ApiResponse
 @using Quotes.UI.Service.Services.Interface;
 @inject IQuoteService _quoteService;
 @inject ISnackbar snackBar;
 
-<MudTable ServerData="ServerReload" Hover="true" @ref="table">
+<MudTable ServerData="ServerReload" AllowUnsorted="false" T="Quote" Style="height:100%" Height="80%" Hover="true" @ref="table" RowClass="cursor-pointer"
+        OnRowClick="RowClickEvent"  FixedFooter="true" FixedHeader="true" Dense="true">
     <ToolBarContent>
         <MudText Typo="Typo.h6">List of Quotes</MudText>
         <MudSpacer />
-         <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField> 
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh><MudTableSortLabel SortLabel="QuoteId" T="Quote">QuoteId</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="Author" T="Quote">Author</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="InspirationalQuote" T="Quote">InspirationalQuote</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel T="Quote">Actions</MudTableSortLabel></MudTh>
+        <MudTh Style="width:5%" Class="text-center fs-6 bg-light"><MudTableSortLabel SortLabel="QuoteId" T="Quote">QuoteId</MudTableSortLabel></MudTh>
+        <MudTh Style="width:20%" Class="text-center fs-6 bg-light"><MudTableSortLabel SortLabel="Author" T="Quote">Author</MudTableSortLabel></MudTh>
+        <MudTh Style="width:30%" Class="text-center fs-6 bg-light"><MudTableSortLabel SortLabel="Quote" T="Quote">InspirationalQuote</MudTableSortLabel></MudTh>
+        <MudTh Style="width:30%" Class="text-center fs-6 bg-light">Tags</MudTh>
+        <MudTh Style="width:15%" Class="text-center fs-6 bg-light">Actions</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="QuoteId">@context.QuoteId</MudTd>
-        <MudTd DataLabel="Author">@context.Author</MudTd>
-        <MudTd DataLabel="InspirationalQuote">@context.InspirationalQuote</MudTd>
-        <MudTd DataLabel="Actions">Actions</MudTd>
+        <MudTd DataLabel="QuoteId" Class="text-center">@context.QuoteId</MudTd>
+        <MudTd DataLabel="Author" Class="text-center">@context.Author</MudTd>
+        <MudTd DataLabel="InspirationalQuote" Class="text-center">@context.InspirationalQuote</MudTd>
+        <MudTd DataLabel="Tags" Class="text-center"><ChipComponent IsClosable="false" Tags="@context.Tags"></ChipComponent></MudTd>
+        <MudTd DataLabel="Actions" Class="text-center">
+            <MudFab OnClick="()=>OnQuoteEditClick(context.QuoteId)"
+                       Color="Color.Primary"
+                    Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit">
+            </MudFab>
+            <MudFab OnClick="()=>OnQuoteDeletClick(context.QuoteId)"
+                       Color="Color.Error"
+                       Size="Size.Small" StartIcon="@Icons.Material.Filled.Delete">
+            </MudFab>
+        </MudTd>
     </RowTemplate>
     <NoRecordsContent>
         <MudText>No matching records found</MudText>
@@ -30,6 +43,6 @@
         <MudText>Loading...</MudText>
     </LoadingContent>
     <PagerContent>
-        <MudTablePager />
+        <MudTablePager Class="bg-light" />
     </PagerContent>
 </MudTable>

@@ -1,11 +1,6 @@
-﻿using Quotes.Common.DTO.RequestDTO;
-using Quotes.Common.DTO.ResponseDTO;
+﻿using Quotes.Data.DTO.RequestDTO;
+using Quotes.Data.DTO.ResponseDTO;
 using Quotes.Data.EntityModals;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Quotes.Data.Repositories.Interface
 {
@@ -15,6 +10,6 @@ namespace Quotes.Data.Repositories.Interface
         Task<List<Quote>> GetAllQuotesAsync();
         Task<Quote> GetQuoteByIdAsync(int id);
         Task<Quote> UpdateQuoteAsync(Quote quote);
-        Task<List<QuotePaginatedRespDto>> SearchQuoteAsync(QuoteFilter quote);
+        Task<List<QuotePaginatedRespDto>> SearchQuoteAsync(QuoteFilter quote, CancellationToken cancellationToken);
     }
 }

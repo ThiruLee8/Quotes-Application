@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Quotes.Common.Enums;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
-namespace Quotes.Common.DTO.RequestDTO
+namespace Quotes.Data.DTO.RequestDTO
 {
     public class QuoteFilter
     {
@@ -14,7 +10,9 @@ namespace Quotes.Common.DTO.RequestDTO
         [JsonPropertyName("quoteFilter")]
         public string? InspirationalQuoteFilter { get; set; }
 
+        public QuoteColumnEnum SortColumn { get; set; } = QuoteColumnEnum.QuoteId;
+        public bool IsAscending {  get; set; } = true;
         public int CurrentPage { get; set; } = 0;
-        public int PageSize { get; set; } = 5;
+        public int PageSize { get; set; } = 10;
     }
 }

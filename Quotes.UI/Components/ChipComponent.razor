@@ -1,4 +1,12 @@
-﻿
-
-<MudChip T="string" Color="Color.Primary" OnClose="Closed">@Name</MudChip>
-
+﻿<MudStack Justify="@Justify.Center"
+          Class="mud-width-full">
+    <MudChipSet T="string"
+                AllClosable="IsClosable"
+                OnClose="@Closed">
+        @foreach (var tag in Tags)
+        {
+            <MudChip Value="@tag"
+                     Color="@GetRandomColor()" />
+        }
+    </MudChipSet>
+</MudStack>

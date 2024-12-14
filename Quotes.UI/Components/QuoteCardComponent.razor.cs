@@ -15,7 +15,7 @@ namespace Quotes.UI.Components
         public bool IsCreatePage {  get; set; }
         [Parameter]
         public bool IsUpdatePage { get; set; }
-        public bool IsViewPage { get; set; }
+        public bool IsViewPage { get; set; } = true;
 
         [Parameter]
         public QuoteReqDto Data { get; set; }
@@ -37,8 +37,9 @@ namespace Quotes.UI.Components
             }
         }
 
-        public void RemoveTag(string tag)
+        public void RemoveTag(object data)
         {
+            var tag = data.ToString();
             if (!string.IsNullOrWhiteSpace(tag) && Data.Tags.Contains(tag) && !IsViewPage)
             {
                 Data.Tags.Remove(tag);

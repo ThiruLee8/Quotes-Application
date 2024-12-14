@@ -3,7 +3,7 @@
 @inject IQuoteService _quoteService;
 
 <MudForm @ref="form" Model="@ModelData" onsubmit="@OnFormSubmit">
-    <MudPaper Elevation="1" Class="p-5">
+    <MudPaper Elevation="@(IsCreatePage ? 1 : 0)" Class="@(IsCreatePage ? "p-3" :"pt-5")">
         <MudGrid Justify="Justify.Center" Spacing="4">
             @foreach (var item in ModelData)
             {
@@ -16,8 +16,8 @@
             </MudItem>
         </MudGrid>
     </MudPaper>
-    <MudItem Class=@("justify-content-center align-items-center mt-5 " + (!IsCreatePage ? "d-none" : "d-flex"))>
-        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Create Quote</MudButton>
+    <MudItem Class=@("justify-content-center align-items-center mt-5 " + (!IsCreatePage && !IsUpdatePage ? "d-none" : "d-flex"))>
+        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">@(IsCreatePage ? "Create Quote" : "Update Quote" )</MudButton>
     </MudItem>
 </MudForm>
 
