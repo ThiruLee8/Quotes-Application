@@ -6,12 +6,15 @@
 @inject ISnackbar snackBar;
 
 <MudTable ServerData="ServerReload" AllowUnsorted="false" T="Quote" Style="height:100%" Height="80%" Hover="true" @ref="table" RowClass="cursor-pointer"
-        OnRowClick="RowClickEvent"  FixedFooter="true" FixedHeader="true" Dense="true">
+          OnRowClick="RowClickEvent" FixedFooter="true" FixedHeader="true" Dense="true">
     <ToolBarContent>
-        <MudText Typo="Typo.h6">List of Quotes</MudText>
-        <MudSpacer />
-        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        @* <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))"  Label="Search Author"
+        Variant="Variant.Outlined" FullWidth="false" IconSize="Size.Medium" Class="mt-0"></MudTextField> *@
+        <MudText Typo="Typo.h4" Class="fw-bold text-secondary">Quotes</MudText>
+        <MudItem Class="d-flex justify-content-end align-items-center vw-100">
+            <MudFab Class="mx-5" StartIcon="@Icons.Material.Filled.AddBox" Label="Create Quotes" Size="Size.Medium" IconSize="Size.Medium" Color="Color.Secondary" OnClick="OnClickCreateQuotes" />
+            <MudFab Class="mx-5" StartIcon="@Icons.Material.Rounded.FilterAlt" Color="Color.Info" Size="Size.Medium" IconSize="Size.Medium" OnClick="OpenFilter" />
+        </MudItem>
     </ToolBarContent>
     <HeaderContent>
         <MudTh Style="width:5%" Class="text-center fs-6 bg-light"><MudTableSortLabel SortLabel="QuoteId" T="Quote">QuoteId</MudTableSortLabel></MudTh>
@@ -27,12 +30,12 @@
         <MudTd DataLabel="Tags" Class="text-center"><ChipComponent IsClosable="false" Tags="@context.Tags"></ChipComponent></MudTd>
         <MudTd DataLabel="Actions" Class="text-center">
             <MudFab OnClick="()=>OnQuoteEditClick(context.QuoteId)"
-                       Color="Color.Primary"
+                    Color="Color.Primary"
                     Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit">
             </MudFab>
             <MudFab OnClick="()=>OnQuoteDeletClick(context.QuoteId)"
-                       Color="Color.Error"
-                       Size="Size.Small" StartIcon="@Icons.Material.Filled.Delete">
+                    Color="Color.Error"
+                    Size="Size.Small" StartIcon="@Icons.Material.Filled.Delete">
             </MudFab>
         </MudTd>
     </RowTemplate>

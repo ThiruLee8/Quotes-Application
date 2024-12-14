@@ -62,9 +62,9 @@ namespace Quotes.Data.Repositories.Implementation
                 ? query.OrderBy(x => x.InspirationalQuote.ToLower())
                 : query.OrderByDescending(x => x.InspirationalQuote.ToLower());
                     break;
-                //default:
-                //    query = query.OrderBy(x => x.QuoteId);
-                //    break;
+                default:
+                    query = query.OrderBy(x => x.QuoteId);
+                    break;
             }
             var sf = query.ToQueryString();
             var total = await query.CountAsync();

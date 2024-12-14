@@ -21,21 +21,20 @@ namespace Quotes.UI.Pages
         private int totalItems;
         private string searchString = null;
 
+        private QuoteFilter Filter { get; set; } = new();
+
         private async Task<TableData<Quote>> ServerReload(TableState state, CancellationToken token)
         {
             try
             {
                 Enum.TryParse(state.SortLabel, out QuoteColumnEnum sortColumn);
 
-                var filter = new QuoteFilter()
-                {
-                    SortColumn = sortColumn,
-                    IsAscending = state.SortDirection == SortDirection.Ascending ? true : false,
-                    PageSize = state.PageSize,
-                    CurrentPage = state.Page,
-                };
+                Filter.SortColumn = sortColumn;
+                Filter.IsAscending = state.SortDirection == SortDirection.Ascending ? true : false;
+                Filter.PageSize = state.PageSize;
+                Filter.CurrentPage = state.Page;
 
-                List<Quote> data = await _quoteService.GetPaginatedQuotes(filter);
+                List<Quote> data = await _quoteService.GetPaginatedQuotes(Filter);
 
                 totalItems = data.FirstOrDefault()?.TotalCount ?? 0;
                 return new TableData<Quote>() { TotalItems = totalItems, Items = data };
@@ -50,12 +49,6 @@ namespace Quotes.UI.Pages
                 snackBar.Add(ex.Message, Severity.Error);
                 return new TableData<Quote>();
             }
-        }
-
-        private void OnSearch(string text)
-        {
-            searchString = text;
-            table.ReloadServerData();
         }
 
         private void RowClickEvent(TableRowClickEventArgs<Quote> tableRowClickEventArgs)
@@ -96,6 +89,40 @@ namespace Quotes.UI.Pages
             }
         }
 
+        public void OnClickCreateQuotes()
+        {
+            NavigationManager.NavigateTo("/CreateQuotes");
+        }
+
+        public async Task OpenFilter()
+        {
+            try
+            {
+                var options = new DialogOptions()
+                {
+                    CloseOnEscapeKey = true
+                };
+                var parameters = new DialogParameters<FilterDialogComponent>
+                {
+                    { x => x.Filter, Filter  },
+                };
+                var dialog = DialogService.Show<FilterDialogComponent>("Filter!", parameters, options);
+                var result = await dialog.Result;
+                if (result.Canceled)
+                    return;
+                Filter = (QuoteFilter)result.Data;
+                await table.ReloadServerData();
+                snackBar.Add("Filter Applied", Severity.Success);
+
+            }
+            catch (Exception ex)
+            {
+                if (ex is UserFriendlyException)
+                    snackBar.Add(ex.Message, Severity.Warning);
+                else
+                    snackBar.Add(ex.Message, Severity.Error);
+            }
+        }
 
     }
 }
