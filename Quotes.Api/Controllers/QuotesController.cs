@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Quotes.Common.CustomExceptions;
-using Quotes.Data.DTO.RequestDTO;
+using Quotes.Common.DTO.RequestDTO;
 using Quotes.Service.Implementations;
 using Quotes.Service.Interfaces;
 

@@ -1,0 +1,23 @@
+﻿@using Quotes.UI.Service.Services.Interface;
+@inject ISnackbar snackBar;
+@inject IQuoteService _quoteService;
+
+<MudForm @ref="form" Model="@ModelData" onsubmit="@OnFormSubmit">
+    <MudPaper Elevation="1" Class="p-5">
+        <MudGrid Justify="Justify.Center" Spacing="4">
+            @foreach (var item in ModelData)
+            {
+                <QuoteCardComponent Data="item" IsCreatePage="IsCreatePage" IsUpdatePage="IsUpdatePage" />
+            }
+            <MudItem xs="12" sm="7" lg="5" xl="4" xxl="3" Class=@("mt-1 " + (!IsCreatePage ? "d-none" : ""))>
+                <MudButton FullWidth OnClick="AddQuote" Variant="Variant.Filled" Color="Color.Surface" >
+                    <MudIcon Icon="@Icons.Material.Filled.AddBox" Color="Color.Dark" />
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+    <MudItem Class=@("justify-content-center align-items-center mt-5 " + (!IsCreatePage ? "d-none" : "d-flex"))>
+        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Create Quote</MudButton>
+    </MudItem>
+</MudForm>
+

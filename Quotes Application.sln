@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{7E1AEDE3-5D9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quotes.UI.Service", "Quotes.UI.Service\Quotes.UI.Service.csproj", "{9AB4D4B9-7F63-43A3-88D0-ECA624DEFA47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quotes.Common", "Quotes.Common\Quotes.Common.csproj", "{5C7CBBDC-E44C-4D26-A73F-688ADDA922A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quotes.Common", "Quotes.Common\Quotes.Common.csproj", "{5C7CBBDC-E44C-4D26-A73F-688ADDA922A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

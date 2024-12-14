@@ -1,7 +1,35 @@
 ﻿@page "/"
+@using Quotes.UI.Service.Dto.ApiResponse
+@using Quotes.UI.Service.Services.Interface;
+@inject IQuoteService _quoteService;
+@inject ISnackbar snackBar;
 
-<PageTitle>Home</PageTitle>
-
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+<MudTable ServerData="ServerReload" Hover="true" @ref="table">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">List of Quotes</MudText>
+        <MudSpacer />
+         <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField> 
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="QuoteId" T="Quote">QuoteId</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="Author" T="Quote">Author</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="InspirationalQuote" T="Quote">InspirationalQuote</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="Quote">Actions</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="QuoteId">@context.QuoteId</MudTd>
+        <MudTd DataLabel="Author">@context.Author</MudTd>
+        <MudTd DataLabel="InspirationalQuote">@context.InspirationalQuote</MudTd>
+        <MudTd DataLabel="Actions">Actions</MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No matching records found</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>

@@ -1,0 +1,8 @@
+﻿@page "/CreateQuotes"
+@using Quotes.UI.Components
+@inject ISnackbar snackBar;
+
+<MudPaper Class="p-4" Elevation="0">
+    <MudText Align="Align.Center" Typo="Typo.h4">Create Quote</MudText>
+    <QuoteFormComponent IsCreatePage="true"/>
+</MudPaper>

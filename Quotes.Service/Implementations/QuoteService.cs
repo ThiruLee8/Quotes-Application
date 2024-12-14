@@ -2,8 +2,8 @@
 using Quotes.Common.AppResponse;
 using Quotes.Common.Constants;
 using Quotes.Common.CustomExceptions;
-using Quotes.Data.DTO.RequestDTO;
-using Quotes.Data.DTO.ResponseDTO;
+using Quotes.Common.DTO.RequestDTO;
+using Quotes.Common.DTO.ResponseDTO;
 using Quotes.Data.EntityModals;
 using Quotes.Data.Repositories.Interface;
 using Quotes.Service.Interfaces;

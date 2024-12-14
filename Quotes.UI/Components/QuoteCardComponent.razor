@@ -1,0 +1,22 @@
+﻿@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@inject ISnackbar snackBar;
+
+
+<MudItem xs="12" sm="7" lg="5" xl="4" xxl="3">
+    <MudCard Elevation="3">
+        <MudCardContent>
+            <MudTextField ReadOnly="IsViewPage" T="string" Label="Author" Variant="Variant.Outlined" @bind-Value="Data.Author" For="(()=>Data.Author)" />
+            @foreach (var tag in Data.Tags)
+            {
+                <ChipComponent Name="@tag" Callback="@(()=>RemoveTag(tag))" />
+            }
+            <MudTextField T="string" ReadOnly="IsViewPage" Label="Tag" @bind-Value="TagText" Variant="Variant.Outlined" />
+            <MudButton Disabled="IsViewPage" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="AddTag" Color="Color.Primary">Add Tag</MudButton>
+            <MudTextField ReadOnly="IsViewPage" Lines="3" T="string" Label="Quote" Variant="Variant.Outlined" @bind-Value="Data.InspirationalQuote" For="(()=>Data.InspirationalQuote)" />
+        </MudCardContent>
+
+    </MudCard>
+</MudItem>
+
+

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Quotes.Data.DTO.ResponseDTO
+namespace Quotes.Common.DTO.ResponseDTO
 {
     public class QuotePaginatedRespDto : QuoteRespDto
     {

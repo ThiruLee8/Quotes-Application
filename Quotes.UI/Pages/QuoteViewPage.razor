@@ -1,0 +1,9 @@
+﻿@page "/ViewQuote/{QuoteId}"
+@using Quotes.UI.Components
+@inject ISnackbar snackBar;
+
+<MudPaper Class="p-4" Elevation="0">
+    <MudText Align="Align.Center" Typo="Typo.h4">Update Quote</MudText>
+    <QuoteFormComponent />
+</MudPaper>
+

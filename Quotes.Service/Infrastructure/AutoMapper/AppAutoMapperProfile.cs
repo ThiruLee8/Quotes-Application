@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Quotes.Data.DTO.RequestDTO;
-using Quotes.Data.DTO.ResponseDTO;
+using Quotes.Common.DTO.RequestDTO;
+using Quotes.Common.DTO.ResponseDTO;
 using Quotes.Data.EntityModals;
 using System;
 using System.Collections.Generic;

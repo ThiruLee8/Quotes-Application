@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Quotes.Common.DTO.RequestDTO;
+using Quotes.Common.DTO.ResponseDTO;
 using Quotes.Data.DatabaseContext;
-using Quotes.Data.DTO.RequestDTO;
-using Quotes.Data.DTO.ResponseDTO;
 using Quotes.Data.EntityModals;
 using Quotes.Data.Repositories.Interface;
 using System;

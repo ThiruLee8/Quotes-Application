@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Quotes.Data.DTO.RequestDTO
+namespace Quotes.Common.DTO.RequestDTO
 {
     public class TagReqDto
     {
