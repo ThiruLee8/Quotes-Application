@@ -5,11 +5,15 @@
 @inject IQuoteService _quoteService;
 
 <MudPaper Class="p-4 overflow-scroll" Height="100%" Elevation="0">
+    <MudItem Class="d-flex align-items-center">
+        <MudIcon Icon="@Icons.Material.Outlined.ArrowBack" Color="Color.Primary"/>
+        <MudLink Href="/" Class="mx-4" Typo="Typo.subtitle1">Back To Home</MudLink>
+    </MudItem>
     <MudText Align="Align.Center" Typo="Typo.h4">View Quote</MudText>
-    @if(Modaldata != null)
+    @if (Modaldata != null)
     {
         <QuoteFormComponent QuoteId="@(int.TryParse(QuoteId,out int id) ? id : 0)" />
     }
-    
+
 </MudPaper>
 

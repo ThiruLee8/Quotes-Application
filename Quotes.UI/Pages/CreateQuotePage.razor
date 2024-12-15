@@ -3,6 +3,10 @@
 @inject ISnackbar snackBar;
 
 <MudPaper Class="p-4 overflow-scroll" Elevation="0" Height="100%">
+    <MudItem Class="d-flex align-items-center">
+        <MudIcon Icon="@Icons.Material.Outlined.ArrowBack" Color="Color.Primary" />
+        <MudLink Href="/" Class="mx-4" Typo="Typo.subtitle1">Back To Home</MudLink>
+    </MudItem>
     <MudText Align="Align.Center" Typo="Typo.h4">Create Quote</MudText>
     <QuoteFormComponent IsCreatePage="true"/>
 </MudPaper>

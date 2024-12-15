@@ -22,10 +22,13 @@ namespace Quotes.UI.Components
                 await Callback.InvokeAsync(chip.Value);
             }
         }
-        Array colors = Enum.GetValues(typeof(Color));
+        //Array colors = Enum.GetValues(typeof(Color));
+
+        List<Color> colors = [Color.Success,Color.Info,Color.Warning, Color.Error, Color.Dark, Color.Primary,
+            Color.Secondary];
         private Color GetRandomColor()
         {
-            var color= (Color)(Index % colors.Length);
+            var color= colors[(Index % colors.Count)];
             Index++;
             return color;
         }

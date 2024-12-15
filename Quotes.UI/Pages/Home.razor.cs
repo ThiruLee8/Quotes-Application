@@ -104,10 +104,14 @@ namespace Quotes.UI.Pages
                 {
                     { x => x.Filter, Filter  },
                 };
+                var oldFilter = Filter.DeepCopy();
                 var dialog = DialogService.Show<FilterDialogComponent>("Filter!", parameters, options);
                 var result = await dialog.Result;
                 if (result.Canceled)
+                {
+                    Filter = oldFilter;
                     return;
+                }
                 Filter = (QuoteFilter)result.Data;
                 await table.ReloadServerData();
                 snackBar.Add("Filter Applied", Severity.Success);
