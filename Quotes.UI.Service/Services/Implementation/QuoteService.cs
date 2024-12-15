@@ -24,8 +24,7 @@ namespace Quotes.UI.Service.Services.Implementation
             var body = JsonConvert.SerializeObject(quotes);
             var resp = await _apiRequestHandler.CallApiAsync(AppUrl.CreateQuotes, HttpMethod.Post, body);
 
-            if (resp.StatusCode != HttpStatusCode.OK)
-                throw new UserFriendlyException(resp.ErrorMsg);
+            resp.ValidateResponse();
 
             var response = JsonConvert.DeserializeObject<GenericResponse<string>>(resp.Response);
             return response.Response;
@@ -36,8 +35,7 @@ namespace Quotes.UI.Service.Services.Implementation
             string url = AppUrl.DeleteQuote.Replace(":id",quoteId.ToString());
             var resp = await _apiRequestHandler.CallApiAsync(url, HttpMethod.Delete);
 
-            if (resp.StatusCode != HttpStatusCode.OK)
-                throw new UserFriendlyException(resp.ErrorMsg);
+            resp.ValidateResponse();
 
             var response = JsonConvert.DeserializeObject<GenericResponse<string>>(resp.Response);
             return response.Response;
@@ -49,8 +47,7 @@ namespace Quotes.UI.Service.Services.Implementation
             var body = JsonConvert.SerializeObject(filter);
             var resp = await _apiRequestHandler.CallApiAsync(AppUrl.GetQuotesPaginated, HttpMethod.Post, body);
 
-            if (resp.StatusCode != HttpStatusCode.OK)
-                throw new UserFriendlyException(resp.ErrorMsg);
+            resp.ValidateResponse();
 
             var response = JsonConvert.DeserializeObject<GenericResponse<List<Quote>>>(resp.Response);
             return response.Response;
@@ -60,8 +57,7 @@ namespace Quotes.UI.Service.Services.Implementation
         {
             var resp = await _apiRequestHandler.CallApiAsync(AppUrl.GetQuoteById.Replace(":id",quoteId.ToString()), HttpMethod.Get);
 
-            if (resp.StatusCode != HttpStatusCode.OK)
-                throw new UserFriendlyException(resp.ErrorMsg);
+            resp.ValidateResponse();
 
             var response = JsonConvert.DeserializeObject<GenericResponse<QuoteRespDto>>(resp.Response);
             return response.Response;
@@ -73,8 +69,7 @@ namespace Quotes.UI.Service.Services.Implementation
             string url = AppUrl.UpdateQuote.Replace(":id",quoteId.ToString());
             var resp = await _apiRequestHandler.CallApiAsync(url, HttpMethod.Put, body);
 
-            if (resp.StatusCode != HttpStatusCode.OK)
-                throw new UserFriendlyException(resp.ErrorMsg);
+            resp.ValidateResponse();
 
             var response = JsonConvert.DeserializeObject<GenericResponse<QuoteRespDto>>(resp.Response);
             return response.Response;

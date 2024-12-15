@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Quotes.UI.Service.Dto.ApiRequest;
+using Quotes.UI.Service.Dto.ApiResponse;
 
 namespace Quotes.UI.Components
 {
@@ -18,8 +19,7 @@ namespace Quotes.UI.Components
         public bool IsViewPage { get; set; } = true;
 
         [Parameter]
-        public QuoteReqDto Data { get; set; }
-
+        public QuoteRespDto Data { get; set; }
         private string TagText { get; set; }
 
         protected override void OnInitialized()

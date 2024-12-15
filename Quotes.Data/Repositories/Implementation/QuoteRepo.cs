@@ -34,31 +34,31 @@ namespace Quotes.Data.Repositories.Implementation
             return await _context.Quotes.Where(x => x.QuoteId == id && !x.IsDeleted).Include(x => x.Tags).FirstOrDefaultAsync();
         }
 
-        public async Task<List<QuotePaginatedRespDto>> SearchQuoteAsync(QuoteFilter quote, CancellationToken cancellationToken)
+        public async Task<List<QuotePaginatedRespDto>> SearchQuoteAsync(QuoteFilter filter, CancellationToken cancellationToken)
         {
             var query = _context.Quotes.Where(x => !x.IsDeleted).AsQueryable();
-            if (!string.IsNullOrWhiteSpace(quote.AuthorFilter))
-                query = query.Where(x => x.Author.ToLower().Contains(quote.AuthorFilter.ToLower()));
-            if (quote.TagsFilter.Count > 0)
-                query = query.Where(x => x.Tags.Any(z => quote.TagsFilter.Any(y => y == z.TagName)));
-            if (!string.IsNullOrWhiteSpace(quote.InspirationalQuoteFilter))
-                query = query.Where(x => x.InspirationalQuote.ToLower().Contains(quote.InspirationalQuoteFilter.ToLower()));
+            if (!string.IsNullOrWhiteSpace(filter.AuthorFilter))
+                query = query.Where(x => x.Author.ToLower().Contains(filter.AuthorFilter.ToLower()));
+            if (filter.TagsFilter.Count > 0)
+                query = query.Where(x => x.Tags.Any(z => filter.TagsFilter.Any(y => y == z.TagName)));
+            if (!string.IsNullOrWhiteSpace(filter.InspirationalQuoteFilter))
+                query = query.Where(x => x.InspirationalQuote.ToLower().Contains(filter.InspirationalQuoteFilter.ToLower()));
 
 
-            switch (quote.SortColumn)
+            switch (filter.SortColumn)
             {
                 case QuoteColumnEnum.QuoteId:
-                    query = quote.IsAscending
+                    query = filter.IsAscending
                 ? query.OrderBy(x => x.QuoteId)
                 : query.OrderByDescending(x => x.QuoteId);
                     break;
                 case QuoteColumnEnum.Author:
-                    query = quote.IsAscending
+                    query = filter.IsAscending
                 ? query.OrderBy(x => x.Author.ToLower())
                 : query.OrderByDescending(x => x.Author.ToLower());
                     break;
                 case QuoteColumnEnum.Quote:
-                    query = quote.IsAscending
+                    query = filter.IsAscending
                 ? query.OrderBy(x => x.InspirationalQuote.ToLower())
                 : query.OrderByDescending(x => x.InspirationalQuote.ToLower());
                     break;
@@ -68,8 +68,7 @@ namespace Quotes.Data.Repositories.Implementation
             }
             var sf = query.ToQueryString();
             var total = await query.CountAsync();
-
-            var finalRes = query.Skip(quote.CurrentPage * quote.PageSize).Take(quote.PageSize)
+            var finalRes = await query.Skip(filter.CurrentPage * filter.PageSize).Take(filter.PageSize)
                 .Select(x => new QuotePaginatedRespDto
                 {
                     Author = x.Author,
@@ -77,7 +76,11 @@ namespace Quotes.Data.Repositories.Implementation
                     InspirationalQuote = x.InspirationalQuote,
                     Tags = x.Tags.Select(x => x.TagName).ToList(),
                     TotalCount = total,
-                }).ToList();
+                }).ToListAsync();
+            for (int i = 0; i < finalRes.Count; i++)
+            {
+                finalRes[i].RowNumber = i + (filter.CurrentPage * filter.PageSize) + 1;
+            }
             return finalRes;
         }
 

@@ -17,17 +17,17 @@
         </MudItem>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh Style="width:5%" Class="text-center fs-6 bg-light"><MudTableSortLabel SortLabel="QuoteId" T="Quote">QuoteId</MudTableSortLabel></MudTh>
+        <MudTh Style="width:5%" Class="text-center fs-6 bg-light">#</MudTh>
         <MudTh Style="width:20%" Class="text-center fs-6 bg-light"><MudTableSortLabel SortLabel="Author" T="Quote">Author</MudTableSortLabel></MudTh>
         <MudTh Style="width:30%" Class="text-center fs-6 bg-light"><MudTableSortLabel SortLabel="Quote" T="Quote">InspirationalQuote</MudTableSortLabel></MudTh>
         <MudTh Style="width:30%" Class="text-center fs-6 bg-light">Tags</MudTh>
         <MudTh Style="width:15%" Class="text-center fs-6 bg-light">Actions</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="QuoteId" Class="text-center">@context.QuoteId</MudTd>
+        <MudTd DataLabel="#" Class="text-center">@context.RowNumber</MudTd>
         <MudTd DataLabel="Author" Class="text-center">@context.Author</MudTd>
         <MudTd DataLabel="InspirationalQuote" Class="text-center">@context.InspirationalQuote</MudTd>
-        <MudTd DataLabel="Tags" Class="text-center"><ChipComponent IsClosable="false" Tags="@context.Tags"></ChipComponent></MudTd>
+        <MudTd DataLabel="Tags" Class="text-center"><ChipComponent IsClosable="false" Tags="@context.Tags" Index="@context.QuoteId"></ChipComponent></MudTd>
         <MudTd DataLabel="Actions" Class="text-center">
             <MudFab OnClick="()=>OnQuoteEditClick(context.QuoteId)"
                     Color="Color.Primary"

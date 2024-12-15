@@ -11,6 +11,7 @@ namespace Quotes.UI.Service.Dto.ApiResponse
 {
     public class Quote
     {
+        public int RowNumber { get; set; }
         public int QuoteId { get; set; }
         public string Author { get; set; } = null!;
         public List<string> Tags { get; set; } = new();

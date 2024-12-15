@@ -2,6 +2,7 @@
 using MudBlazor;
 using Quotes.Common.CustomExceptions;
 using Quotes.UI.Service.Dto.ApiRequest;
+using Quotes.UI.Service.Dto.ApiResponse;
 
 namespace Quotes.UI.Components
 {
@@ -19,7 +20,7 @@ namespace Quotes.UI.Components
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        public List<QuoteReqDto> ModelData { get; set; } = new();
+        public List<QuoteRespDto> ModelData { get; set; } = new();
         protected async override Task OnInitializedAsync()
         {
             try
@@ -59,9 +60,10 @@ namespace Quotes.UI.Components
                 form.Validate();
                 if (!form.IsValid)
                     return;
+                var req = ModelData.Select(x => (QuoteReqDto)x).ToList();
                 if (IsCreatePage)
                 {
-                    var resp = await _quoteService.CreateQuote(ModelData);
+                    var resp = await _quoteService.CreateQuote(req);
                     ModelData.Clear();
                     ModelData.Add(new());
                     snackBar.Add(resp, Severity.Success);
@@ -88,7 +90,7 @@ namespace Quotes.UI.Components
         {
             if (IsCreatePage)
             {
-                ModelData.Add(new QuoteReqDto());
+                ModelData.Add(new QuoteRespDto());
                 StateHasChanged();
             }
 

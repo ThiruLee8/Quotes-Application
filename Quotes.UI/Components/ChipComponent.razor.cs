@@ -12,20 +12,22 @@ namespace Quotes.UI.Components
         public EventCallback Callback { get; set; }
         [Parameter]
         public bool IsClosable { get; set; }
+        [Parameter]
+        public int Index { get; set; } = 0;
 
-        private Random _random = new Random();
         public async void Closed(MudChip<string> chip)
         {
             if (IsClosable && Callback.HasDelegate)
             {
                 await Callback.InvokeAsync(chip.Value);
-            }   
+            }
         }
-
+        Array colors = Enum.GetValues(typeof(Color));
         private Color GetRandomColor()
         {
-            var colors = Enum.GetValues(typeof(Color));
-            return (Color)colors.GetValue(_random.Next(colors.Length));
+            var color= (Color)(Index % colors.Length);
+            Index++;
+            return color;
         }
     }
 }

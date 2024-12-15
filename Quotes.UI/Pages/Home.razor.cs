@@ -39,14 +39,12 @@ namespace Quotes.UI.Pages
                 totalItems = data.FirstOrDefault()?.TotalCount ?? 0;
                 return new TableData<Quote>() { TotalItems = totalItems, Items = data };
             }
-            catch (UserFriendlyException ex)
-            {
-                snackBar.Add(ex.Message, Severity.Warning);
-                return new TableData<Quote>();
-            }
             catch (Exception ex)
             {
-                snackBar.Add(ex.Message, Severity.Error);
+                if (ex is UserFriendlyException)
+                    snackBar.Add(ex.Message, Severity.Warning);
+                else
+                    snackBar.Add(ex.Message, Severity.Error);
                 return new TableData<Quote>();
             }
         }
@@ -72,7 +70,7 @@ namespace Quotes.UI.Pages
                     { x => x.Title, "Delete Quote" },
                     {x =>x.Content, "Do you really want to delete Quote? This process cannot be undone." }
                 };
-                var dialog = DialogService.Show<AppDialogComponent>("Alert!",parameters, options);
+                var dialog = DialogService.Show<AppDialogComponent>("Alert!", parameters, options);
                 var result = await dialog.Result;
                 if (result.Canceled || !bool.TryParse(result.Data.ToString(), out bool resultbool))
                     return;

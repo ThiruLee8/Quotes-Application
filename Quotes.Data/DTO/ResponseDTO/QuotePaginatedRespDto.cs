@@ -9,6 +9,7 @@ namespace Quotes.Data.DTO.ResponseDTO
     public class QuotePaginatedRespDto : QuoteRespDto
     {
         public int TotalCount { get; set; }
+        public int RowNumber { get; set; }
 
     }
 }
