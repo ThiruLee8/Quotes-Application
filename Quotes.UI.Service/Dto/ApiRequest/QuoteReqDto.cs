@@ -12,5 +12,7 @@ namespace Quotes.UI.Service.Dto.ApiRequest
         [Required]
         [JsonProperty("quote")]
         public string InspirationalQuote { get; set; } = null!;
+        public int? QuoteStageId { get; set; } = 1;
+
     }
 }

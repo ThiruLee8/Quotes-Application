@@ -43,7 +43,8 @@ namespace Quotes.Data.Repositories.Implementation
                 query = query.Where(x => x.Tags.Any(z => filter.TagsFilter.Any(y => y == z.TagName)));
             if (!string.IsNullOrWhiteSpace(filter.InspirationalQuoteFilter))
                 query = query.Where(x => x.InspirationalQuote.ToLower().Contains(filter.InspirationalQuoteFilter.ToLower()));
-
+            if (filter.QuoteStageFilter != null & filter.QuoteStageFilter.Count > 0)
+                query = query.Where(x => filter.QuoteStageFilter.Contains(x.QuoteStageId));
 
             switch (filter.SortColumn)
             {
@@ -75,6 +76,8 @@ namespace Quotes.Data.Repositories.Implementation
                     QuoteId = x.QuoteId,
                     InspirationalQuote = x.InspirationalQuote,
                     Tags = x.Tags.Select(x => x.TagName).ToList(),
+                    QuoteStageId = x.QuoteStageId,
+                    QuoteStage = x.Stage.QuoteStageName,
                     TotalCount = total,
                 }).ToListAsync();
             for (int i = 0; i < finalRes.Count; i++)

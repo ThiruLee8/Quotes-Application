@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using MudBlazor;
 using Quotes.Common.CustomExceptions;
 using Quotes.Common.Enums;
 using Quotes.UI.Components;
+using Quotes.UI.Service.CommonState;
 using Quotes.UI.Service.Dto.ApiRequest;
 using Quotes.UI.Service.Dto.ApiResponse;
 
@@ -14,6 +16,11 @@ namespace Quotes.UI.Pages
         private NavigationManager NavigationManager { get; set; }
         [Inject]
         private IDialogService DialogService { get; set; }
+        [Inject]
+        private IJSRuntime jSRuntime { get; set; }
+
+        [Inject]
+        private AppState AppState { get; set; }
 
         private IEnumerable<Quote> pagedData;
         private MudTable<Quote> table;
@@ -23,16 +30,37 @@ namespace Quotes.UI.Pages
 
         private QuoteFilter Filter { get; set; } = new();
 
+        
+
         private async Task<TableData<Quote>> ServerReload(TableState state, CancellationToken token)
         {
             try
             {
+                AppState.UserRole = await jSRuntime.InvokeAsync<string>("JsFunctions.GetUserRole");
+
                 Enum.TryParse(state.SortLabel, out QuoteColumnEnum sortColumn);
 
                 Filter.SortColumn = sortColumn;
                 Filter.IsAscending = state.SortDirection == SortDirection.Ascending ? true : false;
                 Filter.PageSize = state.PageSize;
                 Filter.CurrentPage = state.Page;
+
+                switch (AppState.UserRole)
+                {
+                    case "user":
+                        Filter.QuoteStageFilter = [1];
+                        break;
+                    case "validator":
+                        Filter.QuoteStageFilter = [1,2, 3];
+                        break;
+                    case "admin":
+                        Filter.QuoteStageFilter = [2,4, 5];
+                        break;
+                    default:
+                        Filter.QuoteStageFilter = [1];
+                        break;
+                }
+
 
                 List<Quote> data = await _quoteService.GetPaginatedQuotes(Filter);
 

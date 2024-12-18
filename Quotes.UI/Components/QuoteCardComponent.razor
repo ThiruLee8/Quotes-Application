@@ -1,18 +1,20 @@
 ﻿@using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
+@using Quotes.UI.Service.CommonState
 @inject ISnackbar snackBar;
+@inject AppState AppState;
 
 
 <MudItem xs="12" sm="7" lg="5" xl="4" xxl="3">
     <MudCard Elevation="3">
         <MudCardContent>
-            <MudTextField Margin="Margin.Normal" ReadOnly="IsViewPage" T="string" Label="Author" Variant="Variant.Outlined" @bind-Value="Data.Author" For="(()=>Data.Author)" />
+            <MudTextField Margin="Margin.Normal" ReadOnly="@(IsViewPage || AppState.UserRole != "user")" T="string" Label="Author" Variant="Variant.Outlined" @bind-Value="Data.Author" For="(()=>Data.Author)" />
             <ChipComponent Tags="@Data.Tags" Callback="@((a)=>RemoveTag(a))" IsClosable="!IsViewPage" Index="@Data.QuoteId"/>
             <MudItem Class="d-flex justify-content-around align-items-center">
-                <MudTextField FullWidth="false" T="string" ReadOnly="IsViewPage" Label="Tag" @bind-Value="TagText" Variant="Variant.Outlined" />
-                <MudFab Disabled="IsViewPage" Class="mx-5" StartIcon="@Icons.Material.Filled.Add" OnClick="AddTag" Color="Color.Primary"/>
+                <MudTextField FullWidth="false" T="string" ReadOnly="@(IsViewPage || AppState.UserRole != "user")" Label="Tag" @bind-Value="TagText" Variant="Variant.Outlined" />
+                <MudFab Disabled="@(IsViewPage || AppState.UserRole != "user")" Class="mx-5" StartIcon="@Icons.Material.Filled.Add" OnClick="AddTag" Color="Color.Primary" />
             </MudItem>
-            <MudTextField Margin="Margin.Normal" ReadOnly="IsViewPage" Lines="3" T="string" Label="Quote" Variant="Variant.Outlined" @bind-Value="Data.InspirationalQuote" For="(()=>Data.InspirationalQuote)" />
+            <MudTextField Margin="Margin.Normal" ReadOnly="@(IsViewPage || AppState.UserRole != "user")" Lines="3" T="string" Label="Quote" Variant="Variant.Outlined" @bind-Value="Data.InspirationalQuote" For="(()=>Data.InspirationalQuote)" />
         </MudCardContent>
 
     </MudCard>

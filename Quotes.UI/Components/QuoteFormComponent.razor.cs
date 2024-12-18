@@ -70,8 +70,8 @@ namespace Quotes.UI.Components
                 }
                 else if (IsUpdatePage)
                 {
-                    var updateQuote = ModelData.FirstOrDefault();
-                    var resp = await _quoteService.UpdateQuote(QuoteId, updateQuote);
+                    var updateQuote = req.FirstOrDefault();
+                    var resp = await _quoteService.UpdateQuote(QuoteId, updateQuote,AppState.UserRole);
                     snackBar.Add("Quote Updated Successfully.", Severity.Success);
                 }
                 NavigationManager.NavigateTo("/");
@@ -86,6 +86,42 @@ namespace Quotes.UI.Components
             }
         }
 
+        public async Task UpdateStage(bool isApproved)
+        {
+            try
+            {
+                var req = ModelData.Select(x => (QuoteReqDto)x).ToList();
+                if (AppState.UserRole == "validator")
+                {
+                    var updateQuote = req.FirstOrDefault();
+                    if (isApproved)
+                        updateQuote.QuoteStageId = 2;
+                    else
+                        updateQuote.QuoteStageId = 3;
+                    var resp = await _quoteService.UpdateQuote(QuoteId, updateQuote,AppState.UserRole);
+                    snackBar.Add("Quote Updated Successfully.", Severity.Success);
+                }
+                else if (AppState.UserRole == "admin")
+                {
+                    var updateQuote = req.FirstOrDefault();
+                    if (isApproved)
+                        updateQuote.QuoteStageId = 4;
+                    else
+                        updateQuote.QuoteStageId = 5;
+                    var resp = await _quoteService.UpdateQuote(QuoteId, updateQuote,AppState.UserRole);
+                    snackBar.Add("Quote Updated Successfully.", Severity.Success);
+                }
+                NavigationManager.NavigateTo("/");
+            }
+            catch (UserFriendlyException ex)
+            {
+                snackBar.Add(ex.Message, Severity.Warning);
+            }
+            catch (Exception ex)
+            {
+                snackBar.Add(ex.Message, Severity.Error);
+            }
+        }
         private void AddQuote()
         {
             if (IsCreatePage)

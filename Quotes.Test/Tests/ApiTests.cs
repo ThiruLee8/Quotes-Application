@@ -362,7 +362,7 @@ namespace Quotes.Test.Tests
                 QuoteId = i,
                 Author = x.Author,
                 InspirationalQuote = x.InspirationalQuote,
-                Tags = x.Tags.Select(y => new Tag { QuoteId = i, TagId = i, TagName = y }).ToList()
+                Tags = x.Tags.Select(y => new Tag { TagId = i, TagName = y }).ToList()
             }).ToList();
             return result;
         }

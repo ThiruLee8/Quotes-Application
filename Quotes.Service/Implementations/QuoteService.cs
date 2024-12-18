@@ -57,21 +57,38 @@ namespace Quotes.Service.Implementations
 
         public async Task<GenericResponse<List<QuotePaginatedRespDto>>> SearchQuote(QuoteFilter req, CancellationToken cancellationToken)
         {
-            var quotes = await _quoteRepo.SearchQuoteAsync(req,cancellationToken);
+            var quotes = await _quoteRepo.SearchQuoteAsync(req, cancellationToken);
             return AppResponseFactory.SuccessResponse(quotes);
         }
 
-        public async Task<GenericResponse<QuoteRespDto>> UpdateQuote(int id, QuoteReqDto req)
+        public async Task<GenericResponse<QuoteRespDto>> UpdateQuote(int id, QuoteReqDto req, string userRole)
         {
+            List<string> usersList = ["user", "validator", "admin"];
+            if (!usersList.Contains(userRole))
+                throw new ForbiddenAppException(AppMessage.Forbidden);
             var quote = await _quoteRepo.GetQuoteByIdAsync(id);
             if (quote == null)
                 throw new UserFriendlyException(AppMessage.InvalidQuoteId);
 
             var quoteReq = _mapper.Map<Quote>(req);
-
-            quote.Author = quoteReq.Author;
-            quote.Tags = quoteReq.Tags;
-            quote.InspirationalQuote = quoteReq.InspirationalQuote;
+            if (userRole == "User")
+            {
+                quote.Author = quoteReq.Author;
+                quote.Tags = quoteReq.Tags;
+                quote.InspirationalQuote = quoteReq.InspirationalQuote;
+            }
+            else if(userRole == "Validator" && (quoteReq.QuoteStageId == 2 || quoteReq.QuoteStageId == 3))
+            {
+                quote.QuoteStageId = quoteReq.QuoteStageId;
+            }
+            else if(userRole == "Admin" && (quoteReq.QuoteStageId == 4 || quoteReq.QuoteStageId == 5))
+            {
+                quote.QuoteStageId = quoteReq.QuoteStageId;
+            }
+            else
+            {
+                throw new ForbiddenAppException(AppMessage.Forbidden);
+            }
 
             var updatedQuote = await _quoteRepo.UpdateQuoteAsync(quote);
 

@@ -34,20 +34,17 @@ namespace Quotes.Api.Middlewares
             if(exception is UserFriendlyException)
             {
                 context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                //result = JsonSerializer.Serialize(AppResponseFactory.BadRequest(exception.Message), new JsonSerializerOptions
-                //{
-                //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                //});
                 result = AppResponseFactory.BadRequest(exception.Message);
 
+            }
+            else if(exception is ForbiddenAppException)
+            {
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                result = AppResponseFactory.ForbiddenError(exception.Message);
             }
             else
             {
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                //result = JsonSerializer.Serialize(AppResponseFactory.BadRequest(exception.Message), new JsonSerializerOptions
-                //{
-                //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                //});
                 result = AppResponseFactory.InternalError(exception.Message);
             }
 

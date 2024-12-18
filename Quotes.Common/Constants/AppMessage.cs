@@ -8,6 +8,8 @@ namespace Quotes.Common.Constants
 {
     public class AppMessage
     {
+        public const string Forbidden = "Forbidden";
+
         public const string QuoteCreatedSuccess = "Quotes Created Successfully.";
         public const string QuoteCreationError = "Quotes Creation Failed.";
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Quotes.Data.EntityModals
 {
@@ -13,7 +7,7 @@ namespace Quotes.Data.EntityModals
         [Key]
         public int TagId { get; set; }
         public string TagName { get; set; }
-        public int QuoteId { get; set; }
+        public virtual List<Quote> Quotes { get; set; }
         
     }
 }

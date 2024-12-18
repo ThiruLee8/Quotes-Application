@@ -43,5 +43,15 @@ namespace Quotes.Common.AppResponse
                 Errors = [error],
             };
         }
+
+        public static GenericResponse<string> ForbiddenError(string error)
+        {
+            return new GenericResponse<string>
+            {
+                StatusCode = HttpStatusCode.Forbidden,
+                Status = ApiStatus.Failure.ToString(),
+                Errors = [error],
+            };
+        }
     }
 }

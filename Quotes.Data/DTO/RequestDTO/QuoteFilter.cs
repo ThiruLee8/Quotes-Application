@@ -9,6 +9,8 @@ namespace Quotes.Data.DTO.RequestDTO
         public List<string> TagsFilter { get; set; } = new();
         [JsonPropertyName("quoteFilter")]
         public string? InspirationalQuoteFilter { get; set; }
+        public List<int> QuoteStageFilter { get; set; } = new();
+
 
         public QuoteColumnEnum SortColumn { get; set; } = QuoteColumnEnum.QuoteId;
         public bool IsAscending {  get; set; } = true;

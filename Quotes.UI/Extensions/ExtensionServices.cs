@@ -1,4 +1,5 @@
 ﻿using MudBlazor.Services;
+using Quotes.UI.Service.CommonState;
 using Quotes.UI.Service.HttpHandler;
 using Quotes.UI.Service.Services.Implementation;
 using Quotes.UI.Service.Services.Interface;
@@ -11,6 +12,8 @@ namespace Quotes.UI.Extensions
         {
             services.AddScoped<IQuoteService,QuoteService> ();
             services.AddTransient<ApiRequestHandler>();
+
+            services.AddSingleton<AppState>();
 
 
             services.AddMudServices();

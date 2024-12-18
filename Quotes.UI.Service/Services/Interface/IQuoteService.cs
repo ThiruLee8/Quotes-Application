@@ -7,7 +7,7 @@ namespace Quotes.UI.Service.Services.Interface
     {
         Task<List<Quote>> GetPaginatedQuotes(QuoteFilter filter);
         Task<string> CreateQuote(List<QuoteReqDto> quotes);
-        Task<QuoteRespDto> UpdateQuote(int quoteId, QuoteReqDto quote);
+        Task<QuoteRespDto> UpdateQuote(int quoteId, QuoteReqDto quote, string userRole);
         Task<QuoteRespDto> GetQuoteById(int quoteId);
         Task<string> DeleteQuote(int quoteId);
     }

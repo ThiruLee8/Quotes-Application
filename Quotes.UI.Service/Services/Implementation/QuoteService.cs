@@ -63,11 +63,15 @@ namespace Quotes.UI.Service.Services.Implementation
             return response.Response;
         }
 
-        public async Task<QuoteRespDto> UpdateQuote(int quoteId, QuoteReqDto quote)
+        public async Task<QuoteRespDto> UpdateQuote(int quoteId, QuoteReqDto quote, string userRole)
         {
             var body = JsonConvert.SerializeObject(quote);
             string url = AppUrl.UpdateQuote.Replace(":id",quoteId.ToString());
-            var resp = await _apiRequestHandler.CallApiAsync(url, HttpMethod.Put, body);
+            var headers = new Dictionary<string, string>()
+            {
+                {"UserRole", userRole}
+            };
+            var resp = await _apiRequestHandler.CallApiAsync(url, HttpMethod.Put, body,header:headers);
 
             resp.ValidateResponse();
 

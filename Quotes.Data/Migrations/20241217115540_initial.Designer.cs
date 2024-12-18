@@ -10,14 +10,29 @@ using Quotes.Data.DatabaseContext;
 namespace Quotes.Data.Migrations
 {
     [DbContext(typeof(QuoteDbContext))]
-    [Migration("20241213102258_intial2")]
-    partial class intial2
+    [Migration("20241217115540_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
+
+            modelBuilder.Entity("QuoteTag", b =>
+                {
+                    b.Property<int>("QuotesQuoteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TagsTagId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("QuotesQuoteId", "TagsTagId");
+
+                    b.HasIndex("TagsTagId");
+
+                    b.ToTable("QuoteTag");
+                });
 
             modelBuilder.Entity("Quotes.Data.EntityModals.Quote", b =>
                 {
@@ -36,9 +51,32 @@ namespace Quotes.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("QuoteStageId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("QuoteId");
 
+                    b.HasIndex("QuoteStageId");
+
                     b.ToTable("Quotes");
+                });
+
+            modelBuilder.Entity("Quotes.Data.EntityModals.QuoteStage", b =>
+                {
+                    b.Property<int>("QuoteStageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("QuoteStageName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("QuoteStageId");
+
+                    b.ToTable("QuoteStages");
                 });
 
             modelBuilder.Entity("Quotes.Data.EntityModals.Tag", b =>
@@ -47,32 +85,39 @@ namespace Quotes.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("QuoteId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("TagName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("TagId");
 
-                    b.HasIndex("QuoteId");
-
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Quotes.Data.EntityModals.Tag", b =>
+            modelBuilder.Entity("QuoteTag", b =>
                 {
                     b.HasOne("Quotes.Data.EntityModals.Quote", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("QuoteId")
+                        .WithMany()
+                        .HasForeignKey("QuotesQuoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Quotes.Data.EntityModals.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsTagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Quotes.Data.EntityModals.Quote", b =>
                 {
-                    b.Navigation("Tags");
+                    b.HasOne("Quotes.Data.EntityModals.QuoteStage", "Stage")
+                        .WithMany()
+                        .HasForeignKey("QuoteStageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Stage");
                 });
 #pragma warning restore 612, 618
         }

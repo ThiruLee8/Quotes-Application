@@ -1,11 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Quotes.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Quotes.UI.Service.Dto.ApiRequest
 {
@@ -15,6 +9,7 @@ namespace Quotes.UI.Service.Dto.ApiRequest
         public List<string> TagsFilter { get; set; } = new();
         [JsonProperty("quoteFilter")]
         public string? InspirationalQuoteFilter { get; set; }
+        public List<int> QuoteStageFilter { get; set; } = new();
         public QuoteColumnEnum SortColumn { get; set; } = QuoteColumnEnum.QuoteId;
         public bool IsAscending { get; set; } = true;
         public int CurrentPage { get; set; } = 0;

@@ -18,5 +18,6 @@ namespace Quotes.UI.Service.Dto.ApiResponse
         [JsonProperty("quote")]
         public string InspirationalQuote { get; set; } = null!;
         public int TotalCount { get; set; }
+        public string QuoteStage { get; set; }
     }
 }

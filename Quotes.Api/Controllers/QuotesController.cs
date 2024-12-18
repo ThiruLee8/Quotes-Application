@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using Quotes.Data.DTO.RequestDTO;
 using Quotes.Service.Interfaces;
+using System.Security.Claims;
 
 namespace Quotes.Api.Controllers
 {
@@ -36,7 +38,12 @@ namespace Quotes.Api.Controllers
         [HttpPut("UpdateQuote/{id}")]
         public async Task<IActionResult> UpdateQuote(int id, QuoteReqDto req)
         {
-            var resp = await _quoteService.UpdateQuote(id, req);
+            var role = "User";
+            if(HttpContext.Request.Headers.TryGetValue("UserRole", out StringValues userRole))
+            {
+                role = userRole.ToString();
+            }
+            var resp = await _quoteService.UpdateQuote(id, req, role.ToLower());
             return StatusCode((int)resp.StatusCode, resp);
         }
         [HttpDelete("DeleteQuote/{id}")]
