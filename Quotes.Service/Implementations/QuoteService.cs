@@ -71,17 +71,17 @@ namespace Quotes.Service.Implementations
                 throw new UserFriendlyException(AppMessage.InvalidQuoteId);
 
             var quoteReq = _mapper.Map<Quote>(req);
-            if (userRole == "User")
+            if (userRole == "user")
             {
                 quote.Author = quoteReq.Author;
                 quote.Tags = quoteReq.Tags;
                 quote.InspirationalQuote = quoteReq.InspirationalQuote;
             }
-            else if(userRole == "Validator" && (quoteReq.QuoteStageId == 2 || quoteReq.QuoteStageId == 3))
+            else if(userRole == "validator" && (quoteReq.QuoteStageId == 2 || quoteReq.QuoteStageId == 3))
             {
                 quote.QuoteStageId = quoteReq.QuoteStageId;
             }
-            else if(userRole == "Admin" && (quoteReq.QuoteStageId == 4 || quoteReq.QuoteStageId == 5))
+            else if(userRole == "admin" && (quoteReq.QuoteStageId == 4 || quoteReq.QuoteStageId == 5))
             {
                 quote.QuoteStageId = quoteReq.QuoteStageId;
             }
